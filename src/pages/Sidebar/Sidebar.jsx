@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Drawer,
   List,
@@ -6,25 +6,32 @@ import {
   ListItemText,
   Typography,
   Box,
-} from '@mui/material';
-import { NavLink } from 'react-router-dom';
-import { useMediaQuery } from '@mui/material';
-import Dashboard from '../../Icons/Dashboard';
-import Berry from '../../Icons/Berry';
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import TableViewIcon from '@mui/icons-material/TableView';
-import CustomListItem from './CustomListItem'; 
-
-const Sidebar = ({ isCollapsed, handleDrawerToggle, openDrawer, setIsCollapsed }) => {
+} from "@mui/material";
+import logo from "../../Icons/Logo.png";
+import { NavLink } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
+import Dashboard from "../../Icons/Dashboard";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import TableViewIcon from "@mui/icons-material/TableView";
+import CustomListItem from "./CustomListItem";
+import WatchList from "../MovieList/WatchList";
+const Sidebar = ({
+  isCollapsed,
+  handleDrawerToggle,
+  openDrawer,
+  setIsCollapsed,
+}) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
-  const isMediumScreen = useMediaQuery((theme) => theme.breakpoints.between('md'));
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery((theme) =>
+    theme.breakpoints.between("md")
+  );
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
 
     if (isSmallScreen) {
-      handleDrawerToggle(); 
+      handleDrawerToggle();
     }
 
     if (!isSmallScreen && isMediumScreen) {
@@ -34,7 +41,7 @@ const Sidebar = ({ isCollapsed, handleDrawerToggle, openDrawer, setIsCollapsed }
 
   return (
     <Drawer
-      variant={isSmallScreen ? 'temporary' : 'permanent'}
+      variant={isSmallScreen ? "temporary" : "permanent"}
       open={isSmallScreen ? openDrawer : true}
       onClose={isSmallScreen ? handleDrawerToggle : undefined}
       sx={{
@@ -42,36 +49,41 @@ const Sidebar = ({ isCollapsed, handleDrawerToggle, openDrawer, setIsCollapsed }
         flexShrink: 0,
         "& .MuiDrawer-paper": {
           width: isSmallScreen ? 260 : isCollapsed ? 60 : 260,
-          boxSizing: 'border-box',
-          overflowX: 'hidden',
-          marginTop: isSmallScreen ? 0 : '88px',
-          border: 'none',
-          boxShadow: 'none',
-          transition: 'width 0.3s ease',
+          boxSizing: "border-box",
+          overflowX: "hidden",
+          marginTop: isSmallScreen ? 0 : "88px",
+          border: "none",
+          boxShadow: "none",
+          transition: "width 0.3s ease",
         },
-        display: { xs: 'block', sm: 'block' },
+        display: { xs: "block", sm: "block" },
       }}
     >
-      <List sx={{ padding: '10px' }}>
+      <List sx={{ padding: "10px" }}>
         <Box
           sx={{
-            display: isSmallScreen ? 'flex' : 'none',
-            padding: '16px',
+            display: isSmallScreen ? "flex" : "none",
+            padding: "16px",
             mb: 2,
           }}
         >
-          <Berry />
+          <img
+            src={logo}
+            style={{ height: "50px", width: "50px" }}
+            alt="Logo"
+          />
+          <h2>MagMovies</h2>
         </Box>
 
         <Typography
           sx={{
             display:
-              isMediumScreen || isSmallScreen || isCollapsed ? 'none' : 'block',
+              isMediumScreen || isSmallScreen || isCollapsed ? "none" : "block",
             fontSize: 17,
             mb: 2,
           }}
         >
-          Dashboard
+          Movie List
         </Typography>
 
         <CustomListItem
@@ -85,8 +97,8 @@ const Sidebar = ({ isCollapsed, handleDrawerToggle, openDrawer, setIsCollapsed }
           <ListItemIcon
             sx={{
               minWidth: 0,
-              justifyContent: 'center',
-              display: 'flex',
+              justifyContent: "center",
+              display: "flex",
             }}
           >
             <Dashboard />
@@ -95,8 +107,8 @@ const Sidebar = ({ isCollapsed, handleDrawerToggle, openDrawer, setIsCollapsed }
             primary="Dashboard"
             sx={{
               ml: 3,
-              textAlign: 'left',
-              color: '#5e35b1',
+              textAlign: "left",
+              color: "#5e35b1",
             }}
           />
         </CustomListItem>
@@ -106,51 +118,24 @@ const Sidebar = ({ isCollapsed, handleDrawerToggle, openDrawer, setIsCollapsed }
           isSelected={selectedIndex === 1}
           onClick={() => handleListItemClick(1)}
           component={NavLink}
-          to="/register"
+          to="/watchlist"
           isCollapsed={isCollapsed}
         >
           <ListItemIcon
             sx={{
               minWidth: 0,
-              justifyContent: 'center',
-              display: 'flex',
+              justifyContent: "center",
+              display: "flex",
             }}
           >
-            <AppRegistrationIcon sx={{ color: '#5e35b3' }} />
+            <AppRegistrationIcon sx={{ color: "#5e35b3" }} />
           </ListItemIcon>
           <ListItemText
-            primary="Register"
+            primary="WatchList"
             sx={{
               ml: 3,
-              textAlign: 'left',
-              color: '#5e35b1',
-            }}
-          />
-        </CustomListItem>
-
-        <CustomListItem
-          button
-          isSelected={selectedIndex === 2}
-          onClick={() => handleListItemClick(2)}
-          component={NavLink}
-          to="/table"
-          isCollapsed={isCollapsed}
-        >
-          <ListItemIcon
-            sx={{
-              minWidth: 0,
-              justifyContent: 'center',
-              display: 'flex',
-            }}
-          >
-            <TableViewIcon sx={{ color: '#5e35b3' }} />
-          </ListItemIcon>
-          <ListItemText
-            primary="Table"
-            sx={{
-              ml: 3,
-              textAlign: 'left',
-              color: '#5e35b1',
+              textAlign: "left",
+              color: "#5e35b1",
             }}
           />
         </CustomListItem>

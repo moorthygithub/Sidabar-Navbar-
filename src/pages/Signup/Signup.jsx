@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Button,
-  TextField,
   Typography,
   Container,
   Box,
@@ -17,8 +16,8 @@ import { Link } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Logo from "../../Icons/Berry";
-
+import ReusableTextField from "../common/ReusableTextField";
+import ReusableButton from "../common/ReusableButton";
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState("");
@@ -96,13 +95,9 @@ const SignUp = () => {
           borderRadius: "8px",
           boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
           textAlign: "center",
-
           margin: isSmallScreen ? "5px" : "50px",
         }}
       >
-        <Typography component="h1" variant="h4" sx={{ mb: 2 }}>
-          <Logo />
-        </Typography>
         <Typography
           component="h1"
           variant={isSmallScreen ? "h5" : "h4"}
@@ -127,74 +122,50 @@ const SignUp = () => {
         >
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="firstName"
+              <ReusableTextField
                 label="First Name"
-                name="firstName"
-                autoComplete="given-name"
-                autoFocus
                 value={formik.values.firstName}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                onBlur={formik.handleBlur} // Added onBlur for validation
+                name="firstName"
                 error={
                   formik.touched.firstName && Boolean(formik.errors.firstName)
-                }
-                helperText={formik.touched.firstName && formik.errors.firstName}
-                sx={{ mb: 2 }}
+                } // Check for error
+                helperText={formik.touched.firstName && formik.errors.firstName} // Helper text
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="lastName"
+              <ReusableTextField
                 label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
                 value={formik.values.lastName}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                onBlur={formik.handleBlur} // Added onBlur for validation
+                name="lastName"
                 error={
                   formik.touched.lastName && Boolean(formik.errors.lastName)
-                }
-                helperText={formik.touched.lastName && formik.errors.lastName}
-                sx={{ mb: 2 }}
+                } // Check for error
+                helperText={formik.touched.lastName && formik.errors.lastName} // Helper text
               />
             </Grid>
           </Grid>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
+          <ReusableTextField
             label="Email Address/Username"
-            name="email"
-            autoComplete="email"
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-            sx={{ mb: 2 }}
+            name="email"
+            error={formik.touched.email && Boolean(formik.errors.email)} // Check for error
+            helperText={formik.touched.email && formik.errors.email} // Helper text
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
+          <ReusableTextField
             label="Password"
             type={showPassword ? "text" : "password"}
-            id="password"
-            autoComplete="new-password"
             value={formik.values.password}
             onChange={handlePasswordChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
+            name="password"
+            error={formik.touched.password && Boolean(formik.errors.password)} // Check for error
+            helperText={formik.touched.password && formik.errors.password} // Helper text
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -208,7 +179,6 @@ const SignUp = () => {
                 </InputAdornment>
               ),
             }}
-            sx={{ mb: 2 }}
           />
           {passwordStrength && (
             <Typography
@@ -228,20 +198,13 @@ const SignUp = () => {
               checked={formik.values.agree}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.agree && Boolean(formik.errors.agree)}
+              error={formik.touched.agree && Boolean(formik.errors.agree)} // Check for error
             />
             <Typography variant="body2" sx={{ ml: 1 }}>
               I agree to the terms and conditions
             </Typography>
           </Box>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 2, mb: 2 }}
-          >
-            Sign Up
-          </Button>
+          <ReusableButton label="Sign Up" fullWidth></ReusableButton>
           <Divider sx={{ my: 2 }} />
           <Typography
             component={Link}

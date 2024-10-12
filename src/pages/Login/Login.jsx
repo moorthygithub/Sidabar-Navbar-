@@ -1,33 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import { grey } from "@mui/material/colors";
 import {
-  Button,
-  TextField,
-  Typography,
   Container,
   Box,
+  Typography,
   IconButton,
   InputAdornment,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import axios from "axios";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Logo from "../../Icons/Berry";
-import { StatusContext } from "./StatusCheck";
-
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
+import ReusableTextField from "../common/ReusableTextField";
+import ReusableButton from "../common/ReusableButton";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
-  const { statusData } = useContext(StatusContext);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -47,49 +41,8 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log("status data in login", !statusData);
-      if (!statusData) {
-        navigate("/maintenance");
-        return;
-      }
-
-      try {
-        //POST
-        const response = await axios.post(
-          "https://southindiagarmentsassociation.com/api/panel-login",
-          {
-            username: values.email,
-            password: values.password,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        const data =  response.data;
-        console.log("API Response:", data);
-
-        if (response.status === 200 && data.UserInfo && data.UserInfo.token) {
-          localStorage.setItem("token", data.UserInfo.token);
-
-          const storedToken = localStorage.getItem("token");
-          console.log("Stored Token:", storedToken);
-
-          if (storedToken === data.UserInfo.token) {
-            navigate("/dashboard");
-          } else {
-            alert("check the usernmame and pasword.");
-          }
-        } else {
-          console.error("Error:", data.msg || "No token returned in response.");
-          alert("Login failed. Username and password is incorrect.");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        alert("An error occurred. Please try again later.");
-      }
+      console.log(values);
+      navigate("/dashboard");
     },
   });
 
@@ -104,7 +57,7 @@ const Login = () => {
         alignItems: "center",
         minHeight: "100vh",
         padding: 0,
-        backgroundColor: grey[100],
+        backgroundColor: grey[200],
         width: "100vw",
       }}
     >
@@ -118,9 +71,6 @@ const Login = () => {
         }}
       >
         <Box sx={{ textAlign: "center", mb: 3 }}>
-          <Typography component="h1" variant="h4">
-            <Logo />
-          </Typography>
           <Typography
             component="h1"
             variant={isSmallScreen ? "h5" : "h4"}
@@ -143,31 +93,19 @@ const Login = () => {
         </Typography>
 
         <Box component="form" onSubmit={formik.handleSubmit} noValidate>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
+          <ReusableTextField
             label="Email Address/Username"
             name="email"
-            autoComplete="email"
-            autoFocus
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
-            sx={{ mb: 2 }}
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
+          <ReusableTextField
             label="Password"
+            name="password"
             type={showPassword ? "text" : "password"}
-            id="password"
-            autoComplete="current-password"
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -186,7 +124,6 @@ const Login = () => {
                 </InputAdornment>
               ),
             }}
-            sx={{ mb: 2 }}
           />
           <Box
             sx={{
@@ -197,25 +134,22 @@ const Login = () => {
             }}
           >
             <Typography sx={{ display: "flex", alignItems: "center" }}>
-              <Checkbox {...label} />
+              <Checkbox />
               Remember Me
             </Typography>
             <Typography
               component={Link}
-              to="/forgot-password"
+              // to="/forgot-password"
               sx={{ cursor: "pointer", color: "primary.main" }}
             >
               Forgot Password?
             </Typography>
           </Box>
-          <Button
-            type="submit"
+          <ReusableButton
+            label="Sign In"
+            onClick={formik.handleSubmit}
             fullWidth
-            variant="contained"
-            sx={{ mt: 2, mb: 2 }}
-          >
-            Sign In
-          </Button>
+          />
           <Typography
             component={Link}
             to="/signup"

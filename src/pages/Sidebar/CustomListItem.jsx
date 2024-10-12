@@ -18,7 +18,6 @@ const CustomListItem = ({ isSelected, isCollapsed, ...props }) => {
         padding: isCollapsed ? '8px' : '8px',
       }}
     >
-      {/* {props.children} */}
     </ListItem>
   );
 };
